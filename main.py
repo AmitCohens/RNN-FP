@@ -1,16 +1,58 @@
-# This is a sample Python script.
+import json
+def getGenres():
+    genres = []
+    with open("IMDB_data_(89938 movies).json","r") as file:
+        data = json.load(file)
+        for item in data:
+            if data[item]["genre"]:
+                genres+= data[item]["genre"]
+            # print(data[item]["genre"])
+        genres = list(set(genres))
+    return genres
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def countMoviesByGenre(genres):
+    genres_count = {genre : 0 for genre in genres}
+
+    with open("IMDB_data_(89938 movies).json","r") as file:
+        data = json.load(file)
+        for item in data:
+            if data[item]['genre']:
+                for g in data[item]['genre']:
+                    genres_count[g] += 1
+    print(genres_count)
+    return genres_count
+
+def filterData():
+    d = 0
+    c = 0
+    cd = 0
+
+    new_data = {}
+
+    with open("IMDB_data_(89938 movies).json","r") as file:
+        data = json.load(file)
+        for item in data:
+            if data[item]['genre']:
+                if 'Drama' in data[item]['genre'] and 'Comedy' not in data[item]['genre']:
+                    movie = {'name': data[item]['name'],
+                             'description': data[item]['description'],
+                             'genre': 'Drama'}
+                    new_data[item] = movie
+
+                elif 'Comedy' in data[item]['genre'] and 'Drama' not in data[item]['genre']:
+                    movie = {'name': data[item]['name'],
+                             'description': data[item]['description'],
+                             'genre': 'Comedy'}
+                    new_data[item] = movie
+
+    with open('data.json', 'w+') as f:
+        json.dump(new_data, f, indent=4)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# 'Comedy': 25007
+# 'Drama': 46812
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # genres = getGenres()
+    # countMoviesByGenre(genres)
+    filterData()
