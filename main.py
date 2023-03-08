@@ -23,10 +23,6 @@ def countMoviesByGenre(genres):
     return genres_count
 
 def filterData():
-    d = 0
-    c = 0
-    cd = 0
-
     new_data = {}
 
     with open("IMDB_data_(89938 movies).json","r") as file:
@@ -45,7 +41,7 @@ def filterData():
                              'genre': 'Comedy'}
                     new_data[item] = movie
 
-    with open('data.json', 'w+') as f:
+    with open('data_without_embedded.json', 'w+') as f:
         json.dump(new_data, f, indent=4)
 
 
