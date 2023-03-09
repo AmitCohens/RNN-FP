@@ -4,8 +4,7 @@ import json
 def filterData():
     d = 0
     c = 0
-    cd = 0
-    threshold = 25000
+    threshold = 20000
     new_data = {}
 
     with open("data.json", "r") as file:
